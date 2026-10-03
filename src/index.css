@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Tokens heredados de la guía "Trigonometría paso a paso".
+   El código de colores de los lados es el mismo en la guía y en la app:
+   hipotenusa naranja · opposite rosa · adjacent verde azulado · cateto azul.
+   En el tema 5 (leyes de senos y cosenos): a azul, b morado, c verde.
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  --paper:#F3F6FC; --card:#FFFFFF; --ink:#16213A; --ink-soft:#4B5878;
+  --grid:#DDE4F3; --line:#C3CCE3;
+  --mark:#FFE066; --mark-ink:#16213A;
+  --hyp:#E4570F; --hyp-tint:#FDEBDD; --hyp-ink:#A73800;
+  --opp:#CF2E6B; --opp-tint:#FBE3EC; --opp-ink:#A8184F;
+  --adj:#0A8A9C; --adj-tint:#DCF2F5; --adj-ink:#066676;
+  --leg:#4263EB; --leg-tint:#E4E9FF;
+  --pa:#4263EB; --pb:#AE3EC9; --pc:#25793A;
+  --good:#25793A; --good-tint:#E1F4E6;
+  --warn:#B42318; --warn-tint:#FDE8E6;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#0E1528; --card:#16203A; --ink:#E9EEFB; --ink-soft:#A9B4D2;
+    --grid:#1E2946; --line:#33426B;
+    --mark:#5E4E06; --mark-ink:#FFF0B0;
+    --hyp:#FF8A4C; --hyp-tint:#3B2418; --hyp-ink:#FFAA78;
+    --opp:#FF6B9F; --opp-tint:#3B1A2A; --opp-ink:#FF93B8;
+    --adj:#3CC8DB; --adj-tint:#11333A; --adj-ink:#74DDEC;
+    --leg:#8DA2FF; --leg-tint:#1D2752;
+    --pa:#8DA2FF; --pb:#DD94F2; --pc:#62D17D;
+    --good:#62D17D; --good-tint:#142E1D;
+    --warn:#FF8A80; --warn-tint:#3A1B19;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:#0E1528; --card:#16203A; --ink:#E9EEFB; --ink-soft:#A9B4D2;
+  --grid:#1E2946; --line:#33426B;
+  --mark:#5E4E06; --mark-ink:#FFF0B0;
+  --hyp:#FF8A4C; --hyp-tint:#3B2418; --hyp-ink:#FFAA78;
+  --opp:#FF6B9F; --opp-tint:#3B1A2A; --opp-ink:#FF93B8;
+  --adj:#3CC8DB; --adj-tint:#11333A; --adj-ink:#74DDEC;
+  --leg:#8DA2FF; --leg-tint:#1D2752;
+  --pa:#8DA2FF; --pb:#DD94F2; --pc:#62D17D;
+  --good:#62D17D; --good-tint:#142E1D;
+  --warn:#FF8A80; --warn-tint:#3A1B19;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-grid: var(--grid);
+  --color-line: var(--line);
+  --color-mark: var(--mark);
+  --color-mark-ink: var(--mark-ink);
+  --color-hyp: var(--hyp);
+  --color-hyp-tint: var(--hyp-tint);
+  --color-hyp-ink: var(--hyp-ink);
+  --color-opp: var(--opp);
+  --color-opp-tint: var(--opp-tint);
+  --color-opp-ink: var(--opp-ink);
+  --color-adj: var(--adj);
+  --color-adj-tint: var(--adj-tint);
+  --color-adj-ink: var(--adj-ink);
+  --color-leg: var(--leg);
+  --color-leg-tint: var(--leg-tint);
+  --color-pa: var(--pa);
+  --color-pb: var(--pb);
+  --color-pc: var(--pc);
+  --color-good: var(--good);
+  --color-good-tint: var(--good-tint);
+  --color-warn: var(--warn);
+  --color-warn-tint: var(--warn-tint);
+
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+
+  --radius-card: 12px;
+  --radius-piece: 8px;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+    background-color: var(--paper);
+    /* Papel cuadriculado: el mismo fondo de la guía. */
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 26px 26px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    margin: 0;
+    text-wrap: balance;
+    letter-spacing: -0.015em;
+  }
+
+  button { font: inherit; color: inherit; }
+  input, select { font: inherit; }
+
+  :focus-visible { outline: 3px solid var(--opp); outline-offset: 2px; }
+
+  /* Números siempre en columna. */
+  .tnum { font-variant-numeric: tabular-nums; }
+}
+
+@utility paper-grid {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* ── Piezas de SVG: mismas clases que la guía, para que los dibujos
+      se vean idénticos en los dos sitios. ───────────────────────────── */
+svg text { font-family: var(--font-body); fill: var(--ink); }
+.side { fill: none; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.s-hyp { stroke: var(--hyp); } .s-opp { stroke: var(--opp); }
+.s-adj { stroke: var(--adj); } .s-leg { stroke: var(--leg); }
+.s-pa { stroke: var(--pa); } .s-pb { stroke: var(--pb); } .s-pc { stroke: var(--pc); }
+.s-ink { stroke: var(--ink); }
+.tri-fill { fill: var(--card); stroke: none; }
+.mark { fill: none; stroke: var(--ink); stroke-width: 2; }
+.arc { fill: none; stroke: var(--ink); stroke-width: 2.5; }
+.ground { stroke: var(--ink-soft); stroke-width: 2.5; stroke-linecap: round; }
+.wall { fill: var(--line); stroke: var(--ink-soft); stroke-width: 2; }
+.brick { stroke: var(--ink-soft); stroke-width: 1; opacity: .5; }
+.rung { stroke: var(--hyp); stroke-width: 3; stroke-linecap: round; }
+.person { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.person-head { fill: var(--card); stroke: var(--ink); stroke-width: 2.5; }
+.treetop { fill: var(--good-tint); stroke: var(--good); stroke-width: 2.5; }
+.trunk { fill: var(--line); stroke: var(--ink-soft); stroke-width: 2; }
+.leader { stroke: var(--ink-soft); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.sq-leg { fill: var(--leg-tint); stroke: var(--leg); stroke-width: 2; }
+.sq-hyp { fill: var(--hyp-tint); stroke: var(--hyp); stroke-width: 2; }
+.cell-leg { stroke: var(--leg); stroke-width: 1; opacity: .45; }
+.cell-hyp { stroke: var(--hyp); stroke-width: 1; opacity: .45; }
+.unk { fill: none; stroke: var(--line); stroke-width: 2.5; stroke-dasharray: 5 4; stroke-linecap: round; }
+.t { font-size: 15px; font-weight: 700; }
+.t-lg { font-size: 18px; font-weight: 700; }
+.t-sm { font-size: 12px; font-weight: 700; }
+.f-hyp { fill: var(--hyp-ink); } .f-opp { fill: var(--opp-ink); }
+.f-adj { fill: var(--adj-ink); } .f-leg { fill: var(--leg); }
+.f-pa { fill: var(--pa); } .f-pb { fill: var(--pb); } .f-pc { fill: var(--pc); }
+.f-good { fill: var(--good); } .f-soft { fill: var(--ink-soft); }

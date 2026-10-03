@@ -1,0 +1,873 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Trigonometría paso a paso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Caveat:wght@600&display=swap">
+<style>
+/* Concepto: papel cuadriculado de cuaderno. Una sola columna de lectura; cada tema es un capítulo con figura, pasos y ejercicios.
+   Los lados del triángulo rectángulo tienen siempre el mismo color en todo el documento: hipotenusa naranja, opuesto rosa, adyacente verde azulado. */
+:root{
+  --paper:#F3F6FC; --card:#FFFFFF; --ink:#16213A; --ink-soft:#4B5878; --grid:#DDE4F3; --line:#C3CCE3;
+  --mark:#FFE066; --mark-ink:#16213A;
+  --hyp:#E4570F; --hyp-tint:#FDEBDD; --hyp-ink:#A73800;
+  --opp:#CF2E6B; --opp-tint:#FBE3EC; --opp-ink:#A8184F;
+  --adj:#0A8A9C; --adj-tint:#DCF2F5; --adj-ink:#066676;
+  --leg:#4263EB; --leg-tint:#E4E9FF;
+  --pa:#4263EB; --pb:#AE3EC9; --pc:#25793A;
+  --good:#25793A; --good-tint:#E1F4E6;
+  --warn:#B42318; --warn-tint:#FDE8E6;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --hand:"Caveat","Segoe Print","Bradley Hand",cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1528; --card:#16203A; --ink:#E9EEFB; --ink-soft:#A9B4D2; --grid:#1E2946; --line:#33426B;
+    --mark:#5E4E06; --mark-ink:#FFF0B0;
+    --hyp:#FF8A4C; --hyp-tint:#3B2418; --hyp-ink:#FFAA78;
+    --opp:#FF6B9F; --opp-tint:#3B1A2A; --opp-ink:#FF93B8;
+    --adj:#3CC8DB; --adj-tint:#11333A; --adj-ink:#74DDEC;
+    --leg:#8DA2FF; --leg-tint:#1D2752;
+    --pa:#8DA2FF; --pb:#DD94F2; --pc:#62D17D;
+    --good:#62D17D; --good-tint:#142E1D;
+    --warn:#FF8A80; --warn-tint:#3A1B19;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1528; --card:#16203A; --ink:#E9EEFB; --ink-soft:#A9B4D2; --grid:#1E2946; --line:#33426B;
+  --mark:#5E4E06; --mark-ink:#FFF0B0;
+  --hyp:#FF8A4C; --hyp-tint:#3B2418; --hyp-ink:#FFAA78;
+  --opp:#FF6B9F; --opp-tint:#3B1A2A; --opp-ink:#FF93B8;
+  --adj:#3CC8DB; --adj-tint:#11333A; --adj-ink:#74DDEC;
+  --leg:#8DA2FF; --leg-tint:#1D2752;
+  --pa:#8DA2FF; --pb:#DD94F2; --pc:#62D17D;
+  --good:#62D17D; --good-tint:#142E1D;
+  --warn:#FF8A80; --warn-tint:#3A1B19;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  font-family:var(--body); font-size:17px; line-height:1.6; color:var(--ink);
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
+  margin:0; padding-inline:16px; padding-block:0 4rem;
+}
+.wrap{max-width:46rem; margin-inline:auto}
+p{margin:0}
+h1,h2,h3{font-family:var(--display); margin:0; text-wrap:balance}
+h1{font-size:clamp(2.2rem,8vw,3.5rem); line-height:1.02; letter-spacing:-.025em; font-weight:780}
+h2{font-size:clamp(1.55rem,5vw,2.1rem); line-height:1.1; letter-spacing:-.015em; font-weight:740}
+h3{font-size:1.15rem; line-height:1.25; font-weight:700}
+b{font-weight:700}
+.eyebrow{font:700 .78rem/1.2 var(--body); letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft)}
+:focus-visible{outline:3px solid var(--opp); outline-offset:2px}
+
+/* Navegación */
+.tabs{position:sticky; top:env(safe-area-inset-top,0px); z-index:10; margin-inline:-16px; padding:.6rem 16px; background:var(--paper); border-bottom:1.5px solid var(--line)}
+.tabs ul{display:flex; gap:.5rem; list-style:none; margin:0 auto; padding:0 0 2px; max-width:46rem; overflow-x:auto}
+.tabs a{display:block; white-space:nowrap; padding:.35rem .85rem; border:1.5px solid var(--line); border-radius:999px; background:var(--card); color:var(--ink); text-decoration:none; font-weight:700; font-size:.9rem}
+.tabs a:hover{border-color:var(--ink)}
+
+/* Portada */
+.hero{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:1.5rem; align-items:center; padding-block:2.2rem 1.4rem}
+.hero-text{display:flex; flex-direction:column; gap:.9rem; min-width:0}
+.lead{font-size:1.1rem; max-width:34rem}
+.note{font-family:var(--hand); font-size:1.7rem; line-height:1.1; color:var(--opp-ink); transform:rotate(-1.5deg); transform-origin:left}
+@media (max-width:640px){.hero{grid-template-columns:minmax(0,1fr)}}
+
+/* Piezas comunes */
+.card{background:var(--card); border:1.5px solid var(--line); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; gap:.8rem}
+.legend{list-style:none; margin:0; padding:0; display:grid; gap:.6rem}
+.legend li{display:grid; grid-template-columns:7.5rem minmax(0,1fr); gap:.7rem; align-items:baseline}
+@media (max-width:480px){.legend li{grid-template-columns:minmax(0,1fr); gap:.15rem}}
+.w-hyp,.w-opp,.w-adj,.w-leg{padding:.05em .45em; border-radius:4px; font-weight:700; white-space:nowrap}
+.w-hyp{background:var(--hyp-tint); color:var(--hyp-ink)}
+.w-opp{background:var(--opp-tint); color:var(--opp-ink)}
+.w-adj{background:var(--adj-tint); color:var(--adj-ink)}
+.w-leg{background:var(--leg-tint); color:var(--leg)}
+.w-pa{color:var(--pa); font-weight:700} .w-pb{color:var(--pb); font-weight:700} .w-pc{color:var(--pc); font-weight:700}
+.legend .w-hyp,.legend .w-opp,.legend .w-adj{justify-self:start}
+
+.chapter{background:var(--card); border:1.5px solid var(--line); border-radius:12px; padding:1.4rem 1.2rem 1.6rem; margin-block:1.6rem; scroll-margin-top:4.5rem; display:flex; flex-direction:column; gap:1.15rem}
+@media (min-width:640px){.chapter{padding:2rem 2rem 2.2rem}}
+.chapter>header{display:flex; flex-direction:column; gap:.35rem}
+.sub{color:var(--ink-soft); font-size:1.05rem}
+
+.idea{background:var(--mark); color:var(--mark-ink); border-radius:8px; padding:.85rem 1.1rem 1rem}
+.tag{display:block; font-family:var(--hand); font-size:1.55rem; line-height:1; margin-bottom:.2rem}
+.real{border:1.5px dashed var(--ink-soft); border-radius:8px; padding:.85rem 1.1rem 1rem; display:flex; flex-direction:column; gap:.55rem}
+.real .tag{color:var(--ink)}
+.warn{background:var(--warn-tint); border-radius:8px; padding:.85rem 1.1rem}
+.warn b:first-child{color:var(--warn)}
+
+.fig{margin:0; background-color:var(--paper); background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px); background-size:20px 20px; border:1.5px solid var(--line); border-radius:8px; padding:.8rem .6rem .6rem}
+.fig svg{display:block; width:100%; max-width:30rem; height:auto; margin-inline:auto}
+.fig figcaption{font-size:.92rem; color:var(--ink-soft); padding:.5rem .5rem 0; background:var(--paper); margin-top:.5rem; border-radius:4px}
+.eq{font-family:var(--display); font-weight:650; font-size:1.25rem; text-align:center; background:var(--paper); border:1.5px solid var(--line); border-radius:8px; padding:.7rem .8rem; overflow-x:auto}
+.fr{display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; line-height:1.2; margin-inline:.2em; font-variant-numeric:tabular-nums}
+.fr>span:first-child{border-bottom:1.8px solid currentColor; padding-inline:.3em 0; padding-inline:.3em}
+.fr>span:last-child{padding-inline:.3em}
+
+.steps{counter-reset:s; list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.75rem}
+.steps li{counter-increment:s; display:grid; grid-template-columns:2rem minmax(0,1fr); gap:.75rem; align-items:start}
+.steps li::before{content:counter(s); display:grid; place-items:center; width:2rem; height:2rem; border-radius:50%; background:var(--ink); color:var(--card); font:700 .95rem var(--display)}
+
+.calc{background:var(--paper); border:1.5px solid var(--line); border-radius:8px; padding:.8rem 1rem; display:flex; flex-direction:column; gap:.4rem; font-variant-numeric:tabular-nums; overflow-x:auto}
+.calc p{white-space:nowrap}
+.calc .r{font-weight:700; color:var(--good)}
+
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); gap:.8rem}
+.mini{border:1.5px solid var(--line); border-radius:8px; padding:.8rem .9rem; display:flex; flex-direction:column; gap:.35rem; background:var(--card); min-width:0}
+.mini h3{font-size:1rem}
+.mini .big{font-family:var(--display); font-weight:650; font-size:1.2rem; overflow-x:auto}
+
+.tbl{overflow-x:auto}
+table{border-collapse:collapse; width:100%; min-width:26rem; font-size:.97rem}
+th,td{text-align:left; padding:.55rem .7rem; border-bottom:1.5px solid var(--line); vertical-align:top}
+th{font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft)}
+
+/* Ejercicios */
+.ex{border:1.5px solid var(--line); border-radius:8px; padding:1rem; display:flex; flex-direction:column; gap:.7rem}
+.ex .tag{color:var(--ink-soft); margin:0}
+.ex summary{cursor:pointer; list-style:none; display:inline-block; padding:.5rem 1rem; border-radius:999px; background:var(--ink); color:var(--card); font-weight:700; font-size:.95rem}
+.ex summary::-webkit-details-marker{display:none}
+.ex summary::after{content:" +"}
+.ex details[open] summary::after,details.ex[open]>summary::after{content:" −"}
+.ans{background:var(--good-tint); border-radius:8px; padding:.8rem 1rem; margin-top:.7rem; display:flex; flex-direction:column; gap:.35rem}
+.ans .r{font-weight:700; color:var(--good)}
+
+/* SOH CAH TOA */
+.seg{display:inline-flex; border:1.5px solid var(--ink); border-radius:999px; overflow:hidden; align-self:flex-start}
+.seg button{font:700 .95rem var(--body); padding:.45rem 1rem; border:0; background:var(--card); color:var(--ink); cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink); color:var(--card)}
+.cards3{display:grid; grid-template-columns:repeat(auto-fit,minmax(11.5rem,1fr)); gap:.8rem}
+.rc{border:1.5px solid var(--line); border-radius:8px; padding:.8rem .9rem; display:flex; flex-direction:column; gap:.3rem; background:var(--card); min-width:0}
+.rc .abbr{font-family:var(--display); font-weight:800; font-size:1.7rem; letter-spacing:.03em; line-height:1}
+.rc .abbr small{font-family:var(--body); font-size:.8rem; font-weight:700; letter-spacing:.08em; color:var(--ink-soft); margin-left:.4rem}
+.rc .frm{overflow-x:auto}
+.rc .val{font-family:var(--display); font-weight:700; font-size:1.25rem; font-variant-numeric:tabular-nums}
+
+/* Control deslizante */
+.panel{display:grid; gap:.9rem}
+.panel label{font-weight:700}
+.panel input[type=range]{width:100%; accent-color:var(--opp)}
+.readout{display:grid; grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr)); gap:.6rem}
+.readout div{background:var(--paper); border:1.5px solid var(--line); border-radius:8px; padding:.55rem .7rem; font-variant-numeric:tabular-nums}
+.readout span{display:block; font-size:.8rem; color:var(--ink-soft); font-weight:700}
+.readout strong{font-family:var(--display); font-size:1.2rem}
+.readout .sum{background:var(--good-tint); border-color:var(--good)}
+
+/* SVG */
+svg text{font-family:var(--body); fill:var(--ink)}
+.side{fill:none; stroke-width:5; stroke-linecap:round; stroke-linejoin:round}
+.s-hyp{stroke:var(--hyp)} .s-opp{stroke:var(--opp)} .s-adj{stroke:var(--adj)} .s-leg{stroke:var(--leg)}
+.s-pa{stroke:var(--pa)} .s-pb{stroke:var(--pb)} .s-pc{stroke:var(--pc)}
+#viewfig[data-view="A"] .ac{stroke:var(--adj)} #viewfig[data-view="A"] .bc{stroke:var(--opp)}
+#viewfig[data-view="B"] .ac{stroke:var(--opp)} #viewfig[data-view="B"] .bc{stroke:var(--adj)}
+#viewfig[data-view="A"] .vB{display:none} #viewfig[data-view="B"] .vA{display:none}
+.tri-fill{fill:var(--card); stroke:none}
+.mark{fill:none; stroke:var(--ink); stroke-width:2}
+.arc{fill:none; stroke:var(--ink); stroke-width:2.5}
+.ground{stroke:var(--ink-soft); stroke-width:2.5; stroke-linecap:round}
+.wall{fill:var(--line); stroke:var(--ink-soft); stroke-width:2}
+.brick{stroke:var(--ink-soft); stroke-width:1; opacity:.5}
+.rung{stroke:var(--hyp); stroke-width:3; stroke-linecap:round}
+.person{fill:none; stroke:var(--ink); stroke-width:2.5; stroke-linecap:round}
+.person-head{fill:var(--card); stroke:var(--ink); stroke-width:2.5}
+.treetop{fill:var(--good-tint); stroke:var(--good); stroke-width:2.5}
+.trunk{fill:var(--line); stroke:var(--ink-soft); stroke-width:2}
+.leader{stroke:var(--ink-soft); stroke-width:1.5; stroke-dasharray:3 3}
+.sq-leg{fill:var(--leg-tint); stroke:var(--leg); stroke-width:2}
+.sq-hyp{fill:var(--hyp-tint); stroke:var(--hyp); stroke-width:2}
+.cell-leg{stroke:var(--leg); stroke-width:1; opacity:.45}
+.cell-hyp{stroke:var(--hyp); stroke-width:1; opacity:.45}
+.t{font-size:15px; font-weight:700}
+.t-lg{font-size:18px; font-weight:700}
+.t-sm{font-size:12px; font-weight:700}
+.f-hyp{fill:var(--hyp-ink)} .f-opp{fill:var(--opp-ink)} .f-adj{fill:var(--adj-ink)} .f-leg{fill:var(--leg)}
+.f-pa{fill:var(--pa)} .f-pb{fill:var(--pb)} .f-pc{fill:var(--pc)} .f-good{fill:var(--good)}
+.unk{fill:none; stroke:var(--line); stroke-width:2.5; stroke-dasharray:5 4; stroke-linecap:round}
+.mini-svg{display:block; width:100%; max-width:9rem; height:auto}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Unit 1 · Trigonometry</p>
+    <h1>Trigonometría paso a paso</h1>
+    <p class="lead">Cada tema tiene un dibujo, un ejemplo de la vida real y ejercicios con respuesta. Avanza en orden, porque cada tema usa lo que aprendiste en el anterior.</p>
+    <p class="note">Regla de oro: dibuja siempre el triángulo.</p>
+  </div>
+  <figure class="fig" style="margin:0">
+    <svg viewBox="0 0 340 240" role="img" aria-label="Triángulo rectángulo con la hipotenusa en naranja, el lado opuesto en rosa y el lado adyacente en verde azulado">
+      <polygon class="tri-fill" points="30,200 250,200 250,35"/>
+      <line class="side s-adj" x1="30" y1="200" x2="250" y2="200"/>
+      <line class="side s-opp" x1="250" y1="200" x2="250" y2="35"/>
+      <line class="side s-hyp" x1="30" y1="200" x2="250" y2="35"/>
+      <path class="mark" d="M250 186 L236 186 L236 200"/>
+      <path class="arc" d="M66 200 A36 36 0 0 0 58.8 178.4"/>
+      <text class="t-lg" x="76" y="192" text-anchor="middle">θ</text>
+      <text class="t f-adj" x="140" y="228" text-anchor="middle">adjacent</text>
+      <text class="t f-opp" x="262" y="122">opposite</text>
+      <text class="t f-hyp" x="131.6" y="101.3" text-anchor="middle" transform="rotate(-36.87 131.6 101.3)">hypotenuse</text>
+    </svg>
+  </figure>
+</header>
+
+<nav class="tabs" aria-label="Temas">
+  <ul>
+    <li><a href="#t1">1 Pitágoras</a></li>
+    <li><a href="#t2">2 Razones</a></li>
+    <li><a href="#t3">3 Lados y ángulos</a></li>
+    <li><a href="#t4">4 Identidades</a></li>
+    <li><a href="#t5">5 Seno y coseno</a></li>
+    <li><a href="#resumen">Resumen</a></li>
+  </ul>
+</nav>
+
+<section class="card" style="margin-top:1.6rem" aria-labelledby="colores">
+  <h2 id="colores" style="font-size:1.35rem">El código de colores</h2>
+  <p>En toda la guía, cada lado del triángulo rectángulo tiene siempre el mismo color. Así sabes de qué lado se habla sin releer.</p>
+  <ul class="legend">
+    <li><span class="w-hyp">Hypotenuse</span><span><b>hipotenusa</b>. El lado más largo. Está frente al ángulo de 90°.</span></li>
+    <li><span class="w-opp">Opposite</span><span><b>opuesto</b>. El lado de enfrente del ángulo que estás mirando.</span></li>
+    <li><span class="w-adj">Adjacent</span><span><b>adyacente</b>. El lado que toca ese ángulo y no es la hipotenusa.</span></li>
+  </ul>
+</section>
+
+<!-- ============ TEMA 1 ============ -->
+<section class="chapter" id="t1">
+  <header>
+    <p class="eyebrow">Tema 1 de 5</p>
+    <h2>Pythagorean Theorem</h2>
+    <p class="sub">El teorema de Pitágoras</p>
+  </header>
+
+  <div class="idea"><span class="tag">La idea</span>En un triángulo con un ángulo de 90°, si dibujas un cuadrado sobre cada lado, los dos cuadrados pequeños juntos tienen la misma área que el cuadrado grande.</div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 400 320" role="img" aria-label="Triángulo 3-4-5 con un cuadrado dibujado sobre cada lado: 9, 16 y 25 cuadritos">
+      <polygon class="sq-leg" points="124,124 190,124 190,190 124,190"/>
+<line class="cell-leg" x1="146" y1="124" x2="146" y2="190"/>
+<line class="cell-leg" x1="124" y1="146" x2="190" y2="146"/>
+<line class="cell-leg" x1="168" y1="124" x2="168" y2="190"/>
+<line class="cell-leg" x1="124" y1="168" x2="190" y2="168"/>
+<polygon class="sq-leg" points="190,190 278,190 278,278 190,278"/>
+<line class="cell-leg" x1="212" y1="190" x2="212" y2="278"/>
+<line class="cell-leg" x1="190" y1="212" x2="278" y2="212"/>
+<line class="cell-leg" x1="234" y1="190" x2="234" y2="278"/>
+<line class="cell-leg" x1="190" y1="234" x2="278" y2="234"/>
+<line class="cell-leg" x1="256" y1="190" x2="256" y2="278"/>
+<line class="cell-leg" x1="190" y1="256" x2="278" y2="256"/>
+<polygon class="sq-hyp" points="190,124 278,190 344,102 256,36"/>
+<line class="cell-hyp" x1="207.6" y1="137.2" x2="273.6" y2="49.2"/>
+<line class="cell-hyp" x1="203.2" y1="106.4" x2="291.2" y2="172.4"/>
+<line class="cell-hyp" x1="225.2" y1="150.4" x2="291.2" y2="62.4"/>
+<line class="cell-hyp" x1="216.4" y1="88.8" x2="304.4" y2="154.8"/>
+<line class="cell-hyp" x1="242.8" y1="163.6" x2="308.8" y2="75.6"/>
+<line class="cell-hyp" x1="229.6" y1="71.2" x2="317.6" y2="137.2"/>
+<line class="cell-hyp" x1="260.4" y1="176.8" x2="326.4" y2="88.8"/>
+<line class="cell-hyp" x1="242.8" y1="53.6" x2="330.8" y2="119.6"/>
+<polygon class="tri-fill" points="190,124 278,190 190,190"/>
+<line class="side s-leg" x1="190" y1="124" x2="190" y2="190"/>
+<line class="side s-leg" x1="190" y1="190" x2="278" y2="190"/>
+<line class="side s-hyp" x1="190" y1="124" x2="278" y2="190"/>
+<path class="mark" d="M190 178 L202 178 L202 190"/>
+<text class="t-sm f-leg" x="157" y="152" text-anchor="middle">3×3</text><text class="t-lg f-leg" x="157" y="174" text-anchor="middle">= 9</text>
+<text class="t-sm f-leg" x="234" y="229" text-anchor="middle">4×4</text><text class="t-lg f-leg" x="234" y="251" text-anchor="middle">= 16</text>
+<text class="t-sm f-hyp" x="267" y="108" text-anchor="middle">5×5</text><text class="t-lg f-hyp" x="267" y="130" text-anchor="middle">= 25</text>
+    </svg>
+    <figcaption>Triángulo de lados 3, 4 y 5. Los cuadrados de los <b>catetos</b> (<i>legs</i>) tienen 9 y 16 cuadritos. El de la hipotenusa tiene 25.</figcaption>
+  </figure>
+
+  <p class="eq">3² + 4² = 5² &nbsp;→&nbsp; 9 + 16 = 25</p>
+
+  <p>Con letras se escribe <b>a² + b² = c²</b>. Las letras <b>a</b> y <b>b</b> son los catetos. La letra <b>c</b> es siempre la <span class="w-hyp">hipotenusa</span>.</p>
+
+  <h3>Paso a paso</h3>
+  <ol class="steps">
+    <li><span>Busca el ángulo de 90° (el cuadradito en la esquina).</span></li>
+    <li><span>La hipotenusa es el lado que está frente a ese cuadradito. Píntala de naranja.</span></li>
+    <li><span>Decide qué buscas y usa una de estas dos fórmulas.</span></li>
+  </ol>
+  <div class="grid2">
+    <div class="mini"><h3>Busco la hipotenusa</h3><p><b>Suma</b> los cuadrados de los catetos y saca la raíz.</p><p class="big">c = √(a² + b²)</p></div>
+    <div class="mini"><h3>Busco un cateto</h3><p><b>Resta</b>: el cuadrado de la hipotenusa menos el del otro cateto. Luego saca la raíz.</p><p class="big">a = √(c² − b²)</p></div>
+  </div>
+
+  <div class="real">
+    <span class="tag">En la vida real</span>
+    <p>Una escalera de 5 m se apoya en una pared. La base está a 3 m de la pared. ¿A qué altura llega?</p>
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 400 290" role="img" aria-label="Escalera de 5 metros apoyada en una pared, con la base a 3 metros de la pared">
+        <rect class="wall" x="30" y="40" width="40" height="210"/>
+<line class="brick" x1="30" y1="62" x2="70" y2="62"/>
+<line class="brick" x1="30" y1="84" x2="70" y2="84"/>
+<line class="brick" x1="30" y1="106" x2="70" y2="106"/>
+<line class="brick" x1="30" y1="128" x2="70" y2="128"/>
+<line class="brick" x1="30" y1="150" x2="70" y2="150"/>
+<line class="brick" x1="30" y1="172" x2="70" y2="172"/>
+<line class="brick" x1="30" y1="194" x2="70" y2="194"/>
+<line class="brick" x1="30" y1="216" x2="70" y2="216"/>
+<line class="brick" x1="30" y1="238" x2="70" y2="238"/>
+<line class="ground" x1="10" y1="250" x2="390" y2="250"/>
+<polygon class="tri-fill" points="70,250 190,250 70,90" style="opacity:.75"/>
+<line class="side s-leg" x1="70" y1="250" x2="190" y2="250"/>
+<line class="side s-leg" x1="70" y1="250" x2="70" y2="90"/>
+<line class="side s-hyp" x1="190" y1="250" x2="70" y2="90"/>
+<line class="rung" x1="78" y1="114" x2="90.8" y2="104.4"/>
+<line class="rung" x1="90" y1="130" x2="102.8" y2="120.4"/>
+<line class="rung" x1="102" y1="146" x2="114.8" y2="136.4"/>
+<line class="rung" x1="114" y1="162" x2="126.8" y2="152.4"/>
+<line class="rung" x1="126" y1="178" x2="138.8" y2="168.4"/>
+<line class="rung" x1="138" y1="194" x2="150.8" y2="184.4"/>
+<line class="rung" x1="150" y1="210" x2="162.8" y2="200.4"/>
+<line class="rung" x1="162" y1="226" x2="174.8" y2="216.4"/>
+<path class="mark" d="M70 238 L82 238 L82 250"/>
+<text class="t f-leg" x="130" y="274" text-anchor="middle">3 m</text>
+<text class="t f-leg" x="80" y="182">h = ?</text>
+<text class="t f-hyp" x="143" y="160" text-anchor="middle" transform="rotate(53.13 143 160)">5 m</text>
+      </svg>
+    </figure>
+    <div class="calc">
+      <p>La escalera es la hipotenusa: c = 5</p>
+      <p>c² = a² + b² → 5² = 3² + h²</p>
+      <p>25 = 9 + h²</p>
+      <p>h² = 25 − 9 = 16</p>
+      <p class="r">h = √16 = 4 m</p>
+    </div>
+  </div>
+
+  <div class="warn"><b>Error típico.</b> Olvidar la raíz cuadrada al final. Si te quedó 25 en vez de 5, te falta sacar la raíz. Otra revisión rápida: la hipotenusa siempre es el lado más largo.</div>
+
+  <div class="ex">
+    <span class="tag">Inténtalo 1</span>
+    <p>La pantalla de un celular mide 6 cm de ancho y 8 cm de alto. ¿Cuánto mide su diagonal?</p>
+    <details><summary>Ver la respuesta</summary>
+      <div class="ans"><p>La diagonal es la hipotenusa, porque está frente al ángulo recto.</p><p>c = √(6² + 8²) = √(36 + 64) = √100</p><p class="r">c = 10 cm</p></div>
+    </details>
+  </div>
+  <div class="ex">
+    <span class="tag">Inténtalo 2</span>
+    <p>Una escalera de 2.5 m toca la pared con su base a 1.5 m. ¿A qué altura llega?</p>
+    <details><summary>Ver la respuesta</summary>
+      <div class="ans"><p>Ahora buscas un cateto, así que restas.</p><p>h = √(2.5² − 1.5²) = √(6.25 − 2.25) = √4</p><p class="r">h = 2 m</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ TEMA 2 ============ -->
+<section class="chapter" id="t2">
+  <header>
+    <p class="eyebrow">Tema 2 de 5</p>
+    <h2>Basic and Reciprocal Trigonometric Ratios</h2>
+    <p class="sub">Las razones trigonométricas básicas y sus recíprocas</p>
+  </header>
+
+  <div class="idea"><span class="tag">La idea</span>Una razón trigonométrica es una división entre dos lados de un triángulo rectángulo. Un triángulo más grande con el mismo ángulo da el mismo resultado.</div>
+
+  <h3>Primero, los nombres cambian según el ángulo</h3>
+  <p>Opposite y adjacent dependen del ángulo que mires. La hipotenusa no cambia nunca. Toca los botones y mira cómo cambian los colores.</p>
+  <div class="seg" role="group" aria-label="Ángulo desde el que se mira">
+    <button type="button" data-viewbtn="A" aria-pressed="true">Mirar desde A</button>
+    <button type="button" data-viewbtn="B" aria-pressed="false">Mirar desde B</button>
+  </div>
+  <figure class="fig">
+    <svg id="viewfig" data-view="A" viewBox="0 0 340 240" role="img" aria-label="Triángulo 3-4-5 cuyos lados se nombran desde el ángulo A o desde el ángulo B">
+      <polygon class="tri-fill" points="30,200 250,200 250,35"/>
+      <line class="side ac" x1="30" y1="200" x2="250" y2="200"/>
+      <line class="side bc" x1="250" y1="200" x2="250" y2="35"/>
+      <line class="side s-hyp" x1="30" y1="200" x2="250" y2="35"/>
+      <path class="mark" d="M250 186 L236 186 L236 200"/>
+      <g class="vA">
+        <path class="arc" d="M66 200 A36 36 0 0 0 58.8 178.4"/>
+        <text class="t-lg" x="76" y="192" text-anchor="middle">θ</text>
+        <text class="t f-adj" x="140" y="228" text-anchor="middle">adjacent · 4</text>
+        <text class="t f-opp" x="262" y="112">opposite<tspan x="262" y="132">3</tspan></text>
+      </g>
+      <g class="vB">
+        <path class="arc" d="M250 71 A36 36 0 0 1 221.2 56.6"/>
+        <text class="t-lg" x="226" y="94" text-anchor="middle">θ</text>
+        <text class="t f-opp" x="140" y="228" text-anchor="middle">opposite · 4</text>
+        <text class="t f-adj" x="262" y="112">adjacent<tspan x="262" y="132">3</tspan></text>
+      </g>
+      <text class="t f-hyp" x="131.6" y="101.3" text-anchor="middle" transform="rotate(-36.87 131.6 101.3)">hypotenuse · 5</text>
+      <text class="t-lg" x="8" y="218">A</text>
+      <text class="t-lg" x="250" y="24" text-anchor="middle">B</text>
+      <text class="t-lg" x="262" y="218">C</text>
+    </svg>
+    <figcaption>El triángulo 3-4-5. El ángulo recto está en C.</figcaption>
+  </figure>
+
+  <h3>Las tres razones básicas: SOH CAH TOA</h3>
+  <p>Son tres divisiones. Las iniciales te dicen cuáles lados usar: <b>S</b>in = <b>O</b>pposite ÷ <b>H</b>ypotenuse, y así con las otras dos.</p>
+  <div class="cards3" id="basic">
+    <article class="rc">
+      <p class="abbr">SOH <small>sin</small></p>
+      <p class="frm">sin θ = <span class="fr"><span class="w-opp">opposite</span><span class="w-hyp">hypotenuse</span></span></p>
+      <p class="val" data-a="3/5" data-b="4/5"><span class="fr"><span>3</span><span>5</span></span> = 0.6</p>
+    </article>
+    <article class="rc">
+      <p class="abbr">CAH <small>cos</small></p>
+      <p class="frm">cos θ = <span class="fr"><span class="w-adj">adjacent</span><span class="w-hyp">hypotenuse</span></span></p>
+      <p class="val" data-a="4/5" data-b="3/5"><span class="fr"><span>4</span><span>5</span></span> = 0.8</p>
+    </article>
+    <article class="rc">
+      <p class="abbr">TOA <small>tan</small></p>
+      <p class="frm">tan θ = <span class="fr"><span class="w-opp">opposite</span><span class="w-adj">adjacent</span></span></p>
+      <p class="val" data-a="3/4" data-b="4/3"><span class="fr"><span>3</span><span>4</span></span> = 0.75</p>
+    </article>
+  </div>
+
+  <h3>Las razones recíprocas</h3>
+  <p>Una recíproca es la misma fracción dada vuelta. Los nombres se cruzan: la de <b>sin</b> es <b>csc</b> y la de <b>cos</b> es <b>sec</b>. La de tan es cot.</p>
+  <div class="cards3" id="recip">
+    <article class="rc">
+      <p class="abbr">csc <small>cosecante</small></p>
+      <p class="frm">csc θ = <span class="fr"><span>1</span><span>sin θ</span></span> = <span class="fr"><span class="w-hyp">hypotenuse</span><span class="w-opp">opposite</span></span></p>
+      <p class="val" data-a="5/3" data-b="5/4"><span class="fr"><span>5</span><span>3</span></span> = 1.667</p>
+    </article>
+    <article class="rc">
+      <p class="abbr">sec <small>secante</small></p>
+      <p class="frm">sec θ = <span class="fr"><span>1</span><span>cos θ</span></span> = <span class="fr"><span class="w-hyp">hypotenuse</span><span class="w-adj">adjacent</span></span></p>
+      <p class="val" data-a="5/4" data-b="5/3"><span class="fr"><span>5</span><span>4</span></span> = 1.25</p>
+    </article>
+    <article class="rc">
+      <p class="abbr">cot <small>cotangente</small></p>
+      <p class="frm">cot θ = <span class="fr"><span>1</span><span>tan θ</span></span> = <span class="fr"><span class="w-adj">adjacent</span><span class="w-opp">opposite</span></span></p>
+      <p class="val" data-a="4/3" data-b="3/4"><span class="fr"><span>4</span><span>3</span></span> = 1.333</p>
+    </article>
+  </div>
+
+  <div class="real">
+    <span class="tag">En la vida real</span>
+    <p>Subes por una rampa de 5 m de largo (la hipotenusa). Al llegar arriba estás 3 m más alto (opposite) y avanzaste 4 m hacia adelante (adjacent).</p>
+    <p><b>sin θ = 3/5</b> compara cuánto subes con lo que caminas por la rampa. <b>tan θ = 3/4</b> es la pendiente: 3 m de subida por cada 4 m hacia adelante.</p>
+  </div>
+
+  <div class="warn"><b>Error típico.</b> Escribir la razón sin marcar el ángulo. Antes de escribir nada, dibuja un arquito en el ángulo y pregunta: ¿cuál lado está enfrente? Ese es el opposite.</div>
+
+  <div class="ex">
+    <span class="tag">Inténtalo</span>
+    <p>Un triángulo rectángulo tiene lados 5, 12 y 13. Mirando el ángulo θ que está frente al lado de 5, escribe sin θ, cos θ, tan θ y csc θ.</p>
+    <details><summary>Ver la respuesta</summary>
+      <div class="ans">
+        <p>Opposite = 5, adjacent = 12, hypotenuse = 13 (el más largo).</p>
+        <p>sin θ = 5/13 &nbsp; cos θ = 12/13 &nbsp; tan θ = 5/12</p>
+        <p class="r">csc θ = 13/5, la fracción de sin dada vuelta.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ TEMA 3 ============ -->
+<section class="chapter" id="t3">
+  <header>
+    <p class="eyebrow">Tema 3 de 5</p>
+    <h2>Finding Missing Sides and Angles</h2>
+    <p class="sub">Cómo hallar lados y ángulos que faltan con las razones trigonométricas</p>
+  </header>
+
+  <div class="idea"><span class="tag">La idea</span>Si conoces un ángulo y un lado, las razones te dan los otros lados. Si conoces dos lados, te dan el ángulo.</div>
+
+  <h3>La receta de 4 pasos</h3>
+  <ol class="steps">
+    <li><span><b>Dibuja</b> el triángulo y marca con un arquito el ángulo que te dan o el que buscas.</span></li>
+    <li><span><b>Nombra los lados</b> desde ese ángulo: <span class="w-opp">opposite</span>, <span class="w-adj">adjacent</span> y <span class="w-hyp">hypotenuse</span>.</span></li>
+    <li><span><b>Elige la razón.</b> Encierra el lado que tienes y el que buscas. Usa la razón que tiene esos dos lados (tabla de abajo).</span></li>
+    <li><span><b>Escribe la ecuación y despeja.</b> Para un lado, multiplica o divide. Para un ángulo, usa la función inversa.</span></li>
+  </ol>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Los dos lados que usas</th><th>La razón</th></tr></thead>
+      <tbody>
+        <tr><td><span class="w-opp">opposite</span> y <span class="w-hyp">hypotenuse</span></td><td><b>sin</b> (SOH)</td></tr>
+        <tr><td><span class="w-adj">adjacent</span> y <span class="w-hyp">hypotenuse</span></td><td><b>cos</b> (CAH)</td></tr>
+        <tr><td><span class="w-opp">opposite</span> y <span class="w-adj">adjacent</span></td><td><b>tan</b> (TOA)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn"><b>Antes de calcular.</b> Mira que tu calculadora diga <b>DEG</b> (grados) y no RAD. Si está en RAD, todas las respuestas salen raras. Prueba con sin 30°: debe dar 0.5.</div>
+
+  <h3>Caso 1: busco un lado</h3>
+  <div class="real">
+    <span class="tag">En la vida real</span>
+    <p>Estás a 20 m de un árbol y miras la punta con un ángulo de 35° sobre el suelo. ¿Qué altura tiene el árbol?</p>
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 420 270" role="img" aria-label="Una persona a 20 metros de un árbol mira la punta con un ángulo de 35 grados">
+        <line class="ground" x1="10" y1="230" x2="410" y2="230"/>
+        <rect class="trunk" x="322" y="100" width="16" height="130"/>
+        <circle class="treetop" cx="330" cy="70" r="46"/>
+        <polygon class="tri-fill" points="60,230 330,230 330,41" style="opacity:.75"/>
+        <line class="side s-adj" x1="60" y1="230" x2="330" y2="230"/>
+        <line class="side s-opp" x1="330" y1="230" x2="330" y2="41"/>
+        <line class="side s-hyp" x1="60" y1="230" x2="330" y2="41"/>
+        <path class="mark" d="M330 216 L316 216 L316 230"/>
+        <path class="arc" d="M104 230 A44 44 0 0 0 96 204.8"/>
+        <text class="t" x="128" y="218">35°</text>
+        <circle class="person-head" cx="36" cy="196" r="6"/>
+        <path class="person" d="M36 202 L36 220 M36 220 L30 230 M36 220 L42 230 M36 208 L28 214 M36 208 L44 214"/>
+        <text class="t f-adj" x="195" y="254" text-anchor="middle">20 m</text>
+        <text class="t f-opp" x="346" y="180">h = ?</text>
+      </svg>
+      <figcaption>Para simplificar medimos desde el suelo. En la práctica le sumas la altura de tus ojos.</figcaption>
+    </figure>
+    <div class="calc">
+      <p><b>Paso 2.</b> 20 m es <span class="w-adj">adjacent</span>. La altura h es <span class="w-opp">opposite</span>.</p>
+      <p><b>Paso 3.</b> Uso opposite y adjacent, entonces uso <b>tan</b>.</p>
+      <p><b>Paso 4.</b> tan 35° = h ÷ 20</p>
+      <p>h = 20 × tan 35° = 20 × 0.7002</p>
+      <p class="r">h ≈ 14.0 m</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="mini"><h3>Si la x está arriba</h3><p>sin 35° = x ÷ 10</p><p>Multiplica: <b>x = 10 × sin 35°</b></p></div>
+    <div class="mini"><h3>Si la x está abajo</h3><p>sin 35° = 10 ÷ x</p><p>Cambian de lugar: <b>x = 10 ÷ sin 35°</b></p></div>
+  </div>
+
+  <h3>Caso 2: busco un ángulo</h3>
+  <div class="real">
+    <span class="tag">En la vida real</span>
+    <p>Una rampa mide 10 m de largo y sube 1.2 m. ¿Qué ángulo forma con el suelo?</p>
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 420 150" role="img" aria-label="Rampa de 10 metros que sube 1.2 metros, con el ángulo con el suelo desconocido">
+        <line class="ground" x1="10" y1="110" x2="410" y2="110"/>
+        <polygon class="tri-fill" points="40,110 337.8,110 337.8,74" style="opacity:.8"/>
+        <line class="side s-adj" x1="40" y1="110" x2="337.8" y2="110"/>
+        <line class="side s-opp" x1="337.8" y1="110" x2="337.8" y2="74"/>
+        <line class="side s-hyp" x1="40" y1="110" x2="337.8" y2="74"/>
+        <path class="mark" d="M337.8 98 L325.8 98 L325.8 110"/>
+        <path class="arc" d="M96 110 A56 56 0 0 0 95.6 103.3"/>
+        <line class="leader" x1="98" y1="66" x2="92" y2="102"/>
+        <text class="t" x="98" y="58" text-anchor="middle">θ = ?</text>
+        <text class="t f-hyp" x="187.5" y="80.1" text-anchor="middle" transform="rotate(-6.89 187.5 80.1)">10 m</text>
+        <text class="t f-opp" x="347" y="96">1.2 m</text>
+      </svg>
+    </figure>
+    <div class="calc">
+      <p><b>Pasos 2 y 3.</b> 1.2 es <span class="w-opp">opposite</span> y 10 es <span class="w-hyp">hypotenuse</span>. Uso <b>sin</b>.</p>
+      <p><b>Paso 4.</b> sin θ = 1.2 ÷ 10 = 0.12</p>
+      <p>θ = sin⁻¹(0.12)</p>
+      <p class="r">θ ≈ 6.9°</p>
+    </div>
+    <p>La tecla <b>sin⁻¹</b> (se activa con SHIFT o 2nd) hace la pregunta al revés: ¿qué ángulo tiene un sin de 0.12?</p>
+  </div>
+
+  <div class="ex">
+    <span class="tag">Inténtalo 1</span>
+    <p>Un poste proyecta una sombra de 6 m cuando el sol está a 50° sobre el horizonte. ¿Qué altura tiene el poste?</p>
+    <details><summary>Ver la respuesta</summary>
+      <div class="ans"><p>La sombra es adjacent (6 m). La altura es opposite. Uso tan.</p><p>tan 50° = h ÷ 6 → h = 6 × tan 50° = 6 × 1.1918</p><p class="r">h ≈ 7.2 m</p></div>
+    </details>
+  </div>
+  <div class="ex">
+    <span class="tag">Inténtalo 2</span>
+    <p>Una escalera de 4 m forma un ángulo de 70° con el suelo. ¿A qué altura toca la pared?</p>
+    <details><summary>Ver la respuesta</summary>
+      <div class="ans"><p>La escalera es la hipotenusa (4 m). La altura es opposite. Uso sin.</p><p>sin 70° = h ÷ 4 → h = 4 × sin 70° = 4 × 0.9397</p><p class="r">h ≈ 3.8 m</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ TEMA 4 ============ -->
+<section class="chapter" id="t4">
+  <header>
+    <p class="eyebrow">Tema 4 de 5</p>
+    <h2>Trigonometric Identities</h2>
+    <p class="sub">Las identidades trigonométricas</p>
+  </header>
+
+  <div class="idea"><span class="tag">La idea</span>Una identidad es una igualdad que siempre es verdadera, para cualquier ángulo. Sirve para cambiar una expresión por otra que vale lo mismo, como cambiar una ficha por otra del mismo valor.</div>
+
+  <h3>Identidad 1: sin²θ + cos²θ = 1</h3>
+  <p>Dibuja un triángulo con hipotenusa 1. Entonces sin θ = opposite ÷ 1 = opposite, y cos θ = adjacent ÷ 1 = adjacent. Mueve el ángulo y mira cómo cambian los lados.</p>
+  <div class="card panel" style="gap:.9rem">
+    <label for="ang">Ángulo θ: <span id="angv">40</span>°</label>
+    <input type="range" id="ang" min="5" max="85" step="1" value="40">
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 340 275" role="img" aria-label="Triángulo rectángulo de hipotenusa 1 cuyo ángulo se mueve con el control deslizante">
+        <polygon id="tf" class="tri-fill" points="36,244 204.5,244 204.5,102.6"/>
+<line id="la" class="side s-adj" x1="36" y1="244" x2="204.5" y2="244"/>
+<line id="lo" class="side s-opp" x1="204.5" y1="244" x2="204.5" y2="102.6"/>
+<line id="lh" class="side s-hyp" x1="36" y1="244" x2="204.5" y2="102.6"/>
+<path id="ra" class="mark" d="M204.5 232 L192.5 232 L192.5 244"/>
+<path id="ar" class="arc" d="M70 244 A34 34 0 0 0 62 222.1"/>
+<text id="tsin" class="t f-opp" x="214.5" y="178.3">sin θ</text>
+<text id="tcos" class="t f-adj" x="120.3" y="266" text-anchor="middle">cos θ</text>
+<text id="thyp" class="t f-hyp" x="111.3" y="162.6" text-anchor="middle" transform="rotate(-40 111.3 162.6)">1</text>
+      </svg>
+    </figure>
+    <div class="readout">
+      <div><span>sin θ</span><strong id="r-s">0.643</strong></div>
+      <div><span>cos θ</span><strong id="r-c">0.766</strong></div>
+      <div><span>sin²θ</span><strong id="r-s2">0.413</strong></div>
+      <div><span>cos²θ</span><strong id="r-c2">0.587</strong></div>
+      <div class="sum"><span>sin²θ + cos²θ</span><strong id="r-sum">1.000</strong></div>
+    </div>
+  </div>
+  <p>Siempre da 1 porque es Pitágoras: opposite² + adjacent² = 1². La notación sin²θ significa (sin θ)².</p>
+
+  <h3>Identidad 2: tan θ = sin θ ÷ cos θ</h3>
+  <p class="eq"><span class="fr"><span>sin θ</span><span>cos θ</span></span> = <span class="fr"><span><span class="fr"><span class="w-opp">O</span><span class="w-hyp">H</span></span></span><span><span class="fr"><span class="w-adj">A</span><span class="w-hyp">H</span></span></span></span> = <span class="fr"><span class="w-opp">O</span><span class="w-adj">A</span></span> = tan θ</p>
+  <p>Las H se cancelan y queda opposite sobre adjacent, que es la tangente.</p>
+
+  <h3>Las recíprocas</h3>
+  <p class="eq">csc θ = 1 ÷ sin θ &nbsp; sec θ = 1 ÷ cos θ &nbsp; cot θ = 1 ÷ tan θ</p>
+
+  <details class="ex" style="padding:.8rem 1rem">
+    <summary style="display:block;background:none;color:var(--ink);padding:0;border-radius:0">Extra: otras dos identidades de Pitágoras</summary>
+    <div class="ans" style="margin-top:.7rem"><p>1 + tan²θ = sec²θ &nbsp;y&nbsp; 1 + cot²θ = csc²θ</p><p>Salen de dividir sin²θ + cos²θ = 1 entre cos²θ (la primera) o entre sin²θ (la segunda).</p></div>
+  </details>
+
+  <h3>Cómo demostrar una identidad</h3>
+  <ol class="steps">
+    <li><span>Elige un lado de la igualdad y trabaja solo en ese lado.</span></li>
+    <li><span>Pasa todo a <b>sin</b> y <b>cos</b>. Cambia tan por sin ÷ cos y las recíprocas por 1 ÷ algo.</span></li>
+    <li><span>Simplifica. Cancela lo que se repite. Si ves sin²θ + cos²θ, cámbialo por 1. Si ves 1 − cos²θ, cámbialo por sin²θ.</span></li>
+    <li><span>Termina cuando el lado que elegiste quede igual al otro lado.</span></li>
+  </ol>
+  <div class="calc">
+    <p><b>Ejemplo.</b> Demuestra que tan θ · cos θ = sin θ.</p>
+    <p>Lado izquierdo: tan θ · cos θ</p>
+    <p>Cambio tan: (sin θ ÷ cos θ) · cos θ</p>
+    <p>Cancelo cos θ: sin θ</p>
+    <p class="r">Queda igual al lado derecho. Listo.</p>
+  </div>
+  <div class="real">
+    <span class="tag">Compruébalo</span>
+    <p>Prueba con θ = 30° en la calculadora: tan 30° × cos 30° = 0.5774 × 0.8660 = 0.5000, que es sin 30°. Funciona con cualquier ángulo.</p>
+  </div>
+
+  <div class="ex">
+    <span class="tag">Inténtalo 1</span>
+    <p>Simplifica: sin θ ÷ tan θ</p>
+    <details><summary>Ver la respuesta</summary>
+      <div class="ans"><p>Cambio tan: sin θ ÷ (sin θ ÷ cos θ)</p><p>Dividir por una fracción es multiplicar por la fracción dada vuelta: sin θ × (cos θ ÷ sin θ)</p><p class="r">Cancelo sin θ y queda cos θ.</p></div>
+    </details>
+  </div>
+  <div class="ex">
+    <span class="tag">Inténtalo 2</span>
+    <p>Simplifica: (1 − cos²θ) ÷ sin θ</p>
+    <details><summary>Ver la respuesta</summary>
+      <div class="ans"><p>De sin²θ + cos²θ = 1 sale que 1 − cos²θ = sin²θ.</p><p>Entonces: sin²θ ÷ sin θ</p><p class="r">Cancelo uno y queda sin θ.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ TEMA 5 ============ -->
+<section class="chapter" id="t5">
+  <header>
+    <p class="eyebrow">Tema 5 de 5</p>
+    <h2>Laws of Sine and Cosine</h2>
+    <p class="sub">La ley de los senos y la ley de los cosenos</p>
+  </header>
+
+  <div class="idea"><span class="tag">La idea</span>Pitágoras y SOH CAH TOA solo funcionan si hay un ángulo de 90°. Para cualquier otro triángulo hay dos leyes: <b>Law of Sines</b> y <b>Law of Cosines</b>.</div>
+
+  <h3>Cómo se nombran las partes</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 380 275" role="img" aria-label="Triángulo cualquiera con los ángulos A, B y C y los lados opuestos a, b y c del mismo color">
+      <polygon class="tri-fill" points="50,230 330,230 240,60"/>
+<line class="side s-pa" x1="330" y1="230" x2="240" y2="60"/>
+<line class="side s-pb" x1="240" y1="60" x2="50" y2="230"/>
+<line class="side s-pc" x1="50" y1="230" x2="330" y2="230"/>
+<path fill="none" style="stroke:var(--pa);stroke-width:3.5" d="M84 230 A34 34 0 0 0 75.3 207.3"/>
+<path fill="none" style="stroke:var(--pb);stroke-width:3.5" d="M296 230 A34 34 0 0 1 314.1 200"/>
+<path fill="none" style="stroke:var(--pc);stroke-width:3.5" d="M214.7 82.7 A34 34 0 0 0 255.9 90"/>
+<text class="t-lg f-pa" x="34" y="252" text-anchor="middle">A</text>
+<text class="t-lg f-pb" x="344" y="252" text-anchor="middle">B</text>
+<text class="t-lg f-pc" x="240" y="44" text-anchor="middle">C</text>
+<text class="t-lg f-pa" x="299" y="144">a</text>
+<text class="t-lg f-pb" x="130" y="136" text-anchor="middle">b</text>
+<text class="t-lg f-pc" x="190" y="258" text-anchor="middle">c</text>
+    </svg>
+    <figcaption>Cada ángulo (mayúscula) tiene su lado opuesto (minúscula) del mismo color. <span class="w-pa">A y a</span>, <span class="w-pb">B y b</span>, <span class="w-pc">C y c</span>. Los tres ángulos siempre suman 180°.</figcaption>
+  </figure>
+
+  <div class="grid2">
+    <div class="mini">
+      <h3>Law of Sines</h3>
+      <p class="big"><span class="fr"><span class="w-pa">a</span><span><span class="w-pa">sin A</span></span></span> = <span class="fr"><span class="w-pb">b</span><span class="w-pb">sin B</span></span> = <span class="fr"><span class="w-pc">c</span><span class="w-pc">sin C</span></span></p>
+      <p>Cada lado dividido por el seno de su ángulo opuesto da el mismo número. Necesitas una <b>pareja</b>: un ángulo y su lado opuesto.</p>
+    </div>
+    <div class="mini">
+      <h3>Law of Cosines</h3>
+      <p class="big">c² = a² + b² − 2ab·cos C</p>
+      <p>Es Pitágoras con una corrección al final. Si C = 90°, cos C = 0 y queda a² + b² = c².</p>
+      <p>Para sacar un ángulo: <b>cos C = (a² + b² − c²) ÷ (2ab)</b></p>
+    </div>
+  </div>
+
+  <h3>¿Cuál ley uso? Depende de los datos que tengas</h3>
+  <div class="grid2">
+    <div class="mini"><svg class="mini-svg" viewBox="0 0 120 88" role="img" aria-label="Triángulo con dos ángulos y un lado conocidos"><line class="unk" x1="106" y1="72" x2="80" y2="14"/><line class="unk" x1="80" y1="14" x2="14" y2="72"/><line x1="14" y1="72" x2="106" y2="72" fill="none" stroke-linecap="round" style="stroke:var(--pc);stroke-width:5"/><path fill="none" style="stroke:var(--pb);stroke-width:3.5" d="M91 72 A15 15 0 0 1 99.9 58.3"/><path fill="none" style="stroke:var(--pa);stroke-width:3.5" d="M29 72 A15 15 0 0 0 25.3 62.1"/><text class="t-sm" x="4" y="86">A</text><text class="t-sm" x="110" y="86">B</text><text class="t-sm" x="80" y="10" text-anchor="middle">C</text></svg><h3>Dos ángulos y un lado</h3><p><b>Law of Sines.</b> Primero saca el tercer ángulo: 180° − A − B. Así consigues una pareja.</p></div>
+    <div class="mini"><svg class="mini-svg" viewBox="0 0 120 88" role="img" aria-label="Triángulo con dos lados y un ángulo que no está entre ellos"><line x1="106" y1="72" x2="80" y2="14" fill="none" stroke-linecap="round" style="stroke:var(--pa);stroke-width:5"/><line x1="80" y1="14" x2="14" y2="72" fill="none" stroke-linecap="round" style="stroke:var(--pb);stroke-width:5"/><line class="unk" x1="14" y1="72" x2="106" y2="72"/><path fill="none" style="stroke:var(--pa);stroke-width:3.5" d="M29 72 A15 15 0 0 0 25.3 62.1"/><text class="t-sm" x="4" y="86">A</text><text class="t-sm" x="110" y="86">B</text><text class="t-sm" x="80" y="10" text-anchor="middle">C</text></svg><h3>Dos lados y un ángulo que no está entre ellos</h3><p><b>Law of Sines.</b> Ya tienes una pareja: el lado a y su ángulo A.</p></div>
+    <div class="mini"><svg class="mini-svg" viewBox="0 0 120 88" role="img" aria-label="Triángulo con dos lados y el ángulo entre ellos"><line x1="106" y1="72" x2="80" y2="14" fill="none" stroke-linecap="round" style="stroke:var(--pa);stroke-width:5"/><line x1="80" y1="14" x2="14" y2="72" fill="none" stroke-linecap="round" style="stroke:var(--pb);stroke-width:5"/><line class="unk" x1="14" y1="72" x2="106" y2="72"/><path fill="none" style="stroke:var(--pc);stroke-width:3.5" d="M68.7 23.9 A15 15 0 0 0 86.1 27.7"/><text class="t-sm" x="4" y="86">A</text><text class="t-sm" x="110" y="86">B</text><text class="t-sm" x="80" y="10" text-anchor="middle">C</text></svg><h3>Dos lados y el ángulo entre ellos</h3><p><b>Law of Cosines</b> para sacar el tercer lado.</p></div>
+    <div class="mini"><svg class="mini-svg" viewBox="0 0 120 88" role="img" aria-label="Triángulo con los tres lados conocidos"><line x1="106" y1="72" x2="80" y2="14" fill="none" stroke-linecap="round" style="stroke:var(--pa);stroke-width:5"/><line x1="80" y1="14" x2="14" y2="72" fill="none" stroke-linecap="round" style="stroke:var(--pb);stroke-width:5"/><line x1="14" y1="72" x2="106" y2="72" fill="none" stroke-linecap="round" style="stroke:var(--pc);stroke-width:5"/><text class="t-sm" x="4" y="86">A</text><text class="t-sm" x="110" y="86">B</text><text class="t-sm" x="80" y="10" text-anchor="middle">C</text></svg><h3>Los tres lados</h3><p><b>Law of Cosines</b> en su forma de ángulo, para sacar un ángulo.</p></div>
+  </div>
+  <p>Pregunta clave antes de empezar: <b>¿tengo una pareja?</b> Si la tengo, Law of Sines. Si no, Law of Cosines.</p>
+
+  <h3>Ejemplo con Law of Sines</h3>
+  <div class="real">
+    <span class="tag">En la vida real</span>
+    <p>Quieres saber qué tan lejos está un árbol al otro lado de un río. Marcas dos puntos A y B en tu orilla, a 50 m uno del otro. Desde A el ángulo al árbol es 40° y desde B es 60°. ¿Qué distancia hay de A al árbol?</p>
+    <div class="calc">
+      <p>Tercer ángulo: C = 180° − 40° − 60° = 80°</p>
+      <p>Pareja: c = 50 m con C = 80°</p>
+      <p>Busco b, el lado opuesto a B = 60°</p>
+      <p>b ÷ sin 60° = 50 ÷ sin 80°</p>
+      <p>b = 50 × sin 60° ÷ sin 80° = 50 × 0.8660 ÷ 0.9848</p>
+      <p class="r">b ≈ 44.0 m</p>
+    </div>
+  </div>
+
+  <h3>Ejemplo con Law of Cosines</h3>
+  <div class="real">
+    <span class="tag">En la vida real</span>
+    <p>Quieres medir lo ancho de un estanque. Desde un punto mides 50 m hasta un extremo y 70 m hasta el otro. El ángulo entre las dos direcciones es 60°. ¿Cuánto mide el estanque?</p>
+    <div class="calc">
+      <p>a = 50, b = 70, C = 60°. Busco c.</p>
+      <p>c² = a² + b² − 2ab·cos C</p>
+      <p>c² = 2500 + 4900 − 2 × 50 × 70 × cos 60°</p>
+      <p>c² = 7400 − 7000 × 0.5 = 7400 − 3500 = 3900</p>
+      <p class="r">c = √3900 ≈ 62.4 m</p>
+    </div>
+  </div>
+
+  <h3>Ejemplo sacando un ángulo</h3>
+  <div class="calc">
+    <p>Un triángulo con lados 5, 6 y 7. ¿Cuánto mide el ángulo opuesto al lado 7?</p>
+    <p>cos C = (5² + 6² − 7²) ÷ (2 × 5 × 6) = (25 + 36 − 49) ÷ 60 = 12 ÷ 60 = 0.2</p>
+    <p class="r">C = cos⁻¹(0.2) ≈ 78.5°</p>
+  </div>
+
+  <details class="ex" style="padding:.8rem 1rem">
+    <summary style="display:block;background:none;color:var(--ink);padding:0;border-radius:0">Para más adelante: el caso ambiguo</summary>
+    <div class="ans" style="margin-top:.7rem"><p>Con dos lados y un ángulo que no está entre ellos, a veces salen dos triángulos posibles. Si tu profesor lo explica en clase, es porque aparece justo aquí.</p></div>
+  </details>
+
+  <div class="ex">
+    <span class="tag">Inténtalo 1</span>
+    <p>En un triángulo, A = 50°, B = 70° y a = 10. Halla b.</p>
+    <details><summary>Ver la respuesta</summary>
+      <div class="ans"><p>Pareja: a = 10 con A = 50°. Busco b, opuesto a B.</p><p>b = a × sin B ÷ sin A = 10 × sin 70° ÷ sin 50° = 10 × 0.9397 ÷ 0.7660</p><p class="r">b ≈ 12.3</p></div>
+    </details>
+  </div>
+  <div class="ex">
+    <span class="tag">Inténtalo 2</span>
+    <p>Dos lados miden 8 y 10, y el ángulo entre ellos es 60°. ¿Cuánto mide el tercer lado?</p>
+    <details><summary>Ver la respuesta</summary>
+      <div class="ans"><p>No hay pareja, así que uso Law of Cosines.</p><p>c² = 8² + 10² − 2 × 8 × 10 × cos 60° = 64 + 100 − 80 = 84</p><p class="r">c = √84 ≈ 9.2</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ RESUMEN ============ -->
+<section class="chapter" id="resumen">
+  <header>
+    <p class="eyebrow">Para repasar</p>
+    <h2>Tarjeta resumen</h2>
+    <p class="sub">Lo esencial de los cinco temas en un solo lugar</p>
+  </header>
+  <div class="grid2">
+    <div class="mini"><h3>1 · Pythagorean Theorem</h3><p class="big">a² + b² = c²</p><p>c es la hipotenusa. Si buscas la hipotenusa, suma. Si buscas un cateto, resta. Al final, saca la raíz.</p></div>
+    <div class="mini"><h3>2 · Razones</h3><p class="big">SOH CAH TOA</p><p>sin = O ÷ H, cos = A ÷ H, tan = O ÷ A. Recíprocas: csc = 1 ÷ sin, sec = 1 ÷ cos, cot = 1 ÷ tan.</p></div>
+    <div class="mini"><h3>3 · Lados y ángulos</h3><p class="big">Dibuja · Nombra · Elige · Despeja</p><p>Para un ángulo usa sin⁻¹, cos⁻¹ o tan⁻¹. Calculadora en DEG.</p></div>
+    <div class="mini"><h3>4 · Identidades</h3><p class="big">sin²θ + cos²θ = 1</p><p>tan θ = sin θ ÷ cos θ. Para demostrar, pasa todo a sin y cos y simplifica.</p></div>
+    <div class="mini" style="grid-column:1/-1"><h3>5 · Laws of Sines and Cosines</h3><p class="big">a ÷ sin A = b ÷ sin B = c ÷ sin C</p><p class="big">c² = a² + b² − 2ab·cos C</p><p>¿Tengo una pareja (ángulo y lado opuesto)? Sí: sines. No: cosines.</p></div>
+  </div>
+
+  <h3>Cuaderno de errores: los 5 más comunes</h3>
+  <ol class="steps">
+    <li><span>Calculadora en RAD en vez de DEG. Prueba sin 30° = 0.5.</span></li>
+    <li><span>Olvidar la raíz cuadrada al final en Pitágoras.</span></li>
+    <li><span>Nombrar mal opposite y adjacent por no marcar el ángulo.</span></li>
+    <li><span>Elegir mal la ley en el tema 5. Pregunta primero si tienes una pareja.</span></li>
+    <li><span>Redondear demasiado pronto. Guarda todos los decimales y redondea solo al final.</span></li>
+  </ol>
+  <p>Cada vez que te equivoques, anota el error y por qué pasó. En una semana verás que siempre son los mismos pocos.</p>
+
+  <h3>Vocabulario inglés · español</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td>right triangle</td><td>triángulo rectángulo</td></tr>
+        <tr><td>right angle</td><td>ángulo recto (90°)</td></tr>
+        <tr><td>hypotenuse</td><td>hipotenusa</td></tr>
+        <tr><td>leg</td><td>cateto</td></tr>
+        <tr><td>opposite side</td><td>cateto opuesto</td></tr>
+        <tr><td>adjacent side</td><td>cateto adyacente</td></tr>
+        <tr><td>ratio</td><td>razón</td></tr>
+        <tr><td>reciprocal</td><td>recíproca</td></tr>
+        <tr><td>missing side / missing angle</td><td>lado que falta / ángulo que falta</td></tr>
+        <tr><td>angle of elevation</td><td>ángulo de elevación</td></tr>
+        <tr><td>inverse</td><td>inversa</td></tr>
+        <tr><td>identity</td><td>identidad</td></tr>
+        <tr><td>Law of Sines / Law of Cosines</td><td>ley de los senos / ley de los cosenos</td></tr>
+        <tr><td>to solve</td><td>resolver</td></tr>
+        <tr><td>degrees</td><td>grados</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</div>
+
+<script>
+(function(){
+  function fr(n,d){return '<span class="fr"><span>'+n+'</span><span>'+d+'</span></span>';}
+  function dec(n,d){return String(Number((n/d).toFixed(3)));}
+
+  /* Tema 2: mirar desde A o desde B */
+  var fig=document.getElementById('viewfig');
+  var btns=document.querySelectorAll('[data-viewbtn]');
+  var vals=document.querySelectorAll('[data-a]');
+  function setView(v){
+    fig.setAttribute('data-view',v);
+    btns.forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-viewbtn')===v));});
+    vals.forEach(function(el){
+      var p=el.getAttribute('data-'+v.toLowerCase()).split('/');
+      el.innerHTML=fr(p[0],p[1])+' = '+dec(+p[0],+p[1]);
+    });
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){setView(b.getAttribute('data-viewbtn'));});});
+
+  /* Tema 4: triángulo de hipotenusa 1 */
+  var sl=document.getElementById('ang');
+  if(sl){
+    var AX=36, AY=244, L=220;
+    var el=function(id){return document.getElementById(id);};
+    var n=function(x){return (Math.round(x*10)/10).toString();};
+    var upd=function(){
+      var th=+sl.value, r=th*Math.PI/180, c=Math.cos(r), s=Math.sin(r);
+      var bx=AX+L*c, by=AY-L*s;
+      el('tf').setAttribute('points',n(AX)+','+n(AY)+' '+n(bx)+','+n(AY)+' '+n(bx)+','+n(by));
+      var setL=function(id,x1,y1,x2,y2){var e=el(id);e.setAttribute('x1',n(x1));e.setAttribute('y1',n(y1));e.setAttribute('x2',n(x2));e.setAttribute('y2',n(y2));};
+      setL('lh',AX,AY,bx,by); setL('lo',bx,AY,bx,by); setL('la',AX,AY,bx,AY);
+      el('ra').setAttribute('d','M'+n(bx)+' '+n(AY-12)+' L'+n(bx-12)+' '+n(AY-12)+' L'+n(bx-12)+' '+n(AY));
+      el('ar').setAttribute('d','M'+n(AX+34)+' '+n(AY)+' A34 34 0 0 0 '+n(AX+34*c)+' '+n(AY-34*s));
+      var ts=el('tsin'); ts.setAttribute('x',n(bx+10)); ts.setAttribute('y',n((AY+by)/2+5));
+      var tc=el('tcos'); tc.setAttribute('x',n((AX+bx)/2)); tc.setAttribute('y',n(AY+22));
+      var mx=AX+L*c/2-s*14, my=AY-L*s/2-c*14;
+      var th_=el('thyp'); th_.setAttribute('x',n(mx)); th_.setAttribute('y',n(my)); th_.setAttribute('transform','rotate('+(-th)+' '+n(mx)+' '+n(my)+')');
+      var f3=function(x){return x.toFixed(3);};
+      el('angv').textContent=th;
+      el('r-s').textContent=f3(s); el('r-c').textContent=f3(c);
+      el('r-s2').textContent=f3(s*s); el('r-c2').textContent=f3(c*c);
+      el('r-sum').textContent=f3(s*s+c*c);
+    };
+    sl.addEventListener('input',upd);
+    upd();
+  }
+})();
+</script>
+
+</body></html>

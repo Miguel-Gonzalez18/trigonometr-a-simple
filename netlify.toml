@@ -1,0 +1,20 @@
+# Despliegue estático en Netlify. No hay backend: todo vive en localStorage.
+
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# La app usa rutas de cliente (/tema/pitagoras, /prueba, /glosario).
+# Sin esta regla, recargar una ruta interna daría 404.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
